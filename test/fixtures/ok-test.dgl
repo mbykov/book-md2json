@@ -1,0 +1,30 @@
+[
+  {
+   author: 'ok-deu-R.L.Stevenson',
+   title: 'Die Schatzinsel',
+   lang: 'deu',
+   type: 'md',
+   src: 'file://ok-test-deu.md'},
+
+  {
+    origin: true,
+    author: 'ok-eng-R.L.Stevenson',
+    title: 'Treasure Island',
+    lang: 'eng',
+    type: 'md',
+    src: 'file://ok-test-eng.md'},
+
+  {
+    author: 'ok-spa-R.L.Stevenson',
+    title: 'La Isla Del Tesoro',
+    lang: 'spa',
+    type: 'md',
+    src: 'file://ok-test-spa.md'},
+
+  {
+    author: 'ok-rus-Р.Л.Стивенсон',
+    title: 'Остров Сокровищ',
+    lang: 'rus',
+    type: 'md',
+    src: 'file://ok-test-rus.md'}
+]
