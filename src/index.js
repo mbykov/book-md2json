@@ -7,8 +7,71 @@ const log = console.log
 // const franc = require('franc')
 const naturalCompare = require("natural-compare-lite")
 
+
+export async function md2json(mds) {
+  const fillsize = mds.length.toString().length
+  let docs = []
+  let level = 0, headstart = -1
+  let levnumkey = {}, path = '00', counter = 0, filled, match
+  // let prevheader = {level: 0, path: '00'}
+  let prevheader = {level: 0}
+  let parent = {level: 0}
+  for (let md of mds) {
+    let doc =  {_id: '', path: ''}
+    if (/^#/.test(md)) {
+      if (headstart < 0) headstart = md.match(/#/g).length - 1
+      level = md.match(/#/g).length - headstart
+      doc.level = level
+      md = md.replace(/#/g, '')
+    }
+    // последовательность cleanStr и ndash ?
+    md = cleanStr(md)
+    if (!md) { log('_NO ROW', md); continue }
+    md = ndash(cleanStr(md))
+
+    if (doc.level > -1) {
+      level = doc.level
+      counter = 0
+      if (levnumkey[level] > -1) levnumkey[level] += 1
+      else levnumkey[level] = 0
+      doc.levnum = levnumkey[level] || 0
+
+      if (prevheader.level === level) path = [prevheader.path.slice(0,-1), levnumkey[level]].join('')
+      else if (prevheader.level < level) levnumkey[level] = 0, path = [prevheader.path, level, levnumkey[level]].join('')
+      else if (prevheader.level > level) {
+        // parent = _.last(_.filter(baredocs, (bdoc, idy)=> { return bdoc.level < doc.level  })) || {level: 0, path: '00'}
+        parent = _.last(_.filter(docs, (bdoc, idy)=> { return bdoc.level < doc.level  })) || {level: 0, path: '00'}
+        path = [parent.path, level, levnumkey[level]].join('')
+      }
+      prevheader = doc
+    }
+
+    doc.path = path
+    filled = zerofill(counter, fillsize)
+    if (/^-/.test(md)) md = md.replace(/^-/, '').trim(), doc.type = 'list'
+    // doc.lang = lang
+
+    if (/^\[/.test(md)) {
+      match = md.match(/\[([^\]]*)\]: ([^)]*)/)
+      if (match) {
+        doc.type = 'ref'
+        // md = match[1]
+        doc._id = ['ref', path, match[1]].join('-')
+      }
+    } else if (/^!\[/.test(md)) {
+      doc.type = 'img'
+    } else {
+      doc._id = [path, filled].join('-')
+    }
+
+    counter++
+    prevheader.size = counter
+    docs.push(doc)
+  }
+  return docs
+}
+
 export async function importMarkdown(bpath) {
-  log('_markdown-start:', bpath)
   let md = ''
   try {
     let stats = fse.statSync(bpath)
@@ -56,3 +119,14 @@ export function cleanStr(str) {
 //   let test = docs.map(doc=> doc._id).join(' ')
 //   return franc(test)
 // }
+
+
+function ndash(str) {
+  return str.trim().replace(/^--/, '–').replace(/^—/, '–').replace(/ - /g, ' – ') // m-dash: —
+}
+
+function zerofill(number, size) {
+  number = number.toString()
+  while (number.length < size) number = "0" + number
+  return number
+}

@@ -13,15 +13,17 @@ log('RUN BPATH:', bpath)
 
 async function start(bpath) {
   let {mds, imgs} = await importMarkdown(bpath)
-  log('_LAST', mds.slice(-5))
+  // log('_LAST', mds.slice(-5))
   log('_mds:', mds.length)
+  let docs = await md2json(mds)
+  log('_docs:', docs)
 }
 
 start(bpath)
 
 // md2json(bpath)
 //   .then(res=> {
-//     if (!res) return
+//     if (!res) returnn
 //     log('_B-res', res.docs.length)
 //     if (!res.docs) return
 //     log('_LAST', res.docs.slice(-1))
