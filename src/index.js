@@ -55,6 +55,8 @@ export async function md2json(mds) {
       match = md.match(/\[([^\]]*)\]: ([^)]*)/)
       if (match) {
         doc.type = 'ref'
+        // let ref = match[1]
+        // log('_____=>', ref, 'md:', md)
         // md = match[1]
         doc._id = ['ref', path, match[1]].join('-')
       }
@@ -63,6 +65,7 @@ export async function md2json(mds) {
     } else {
       doc._id = [path, filled].join('-')
     }
+    doc.md = md
 
     counter++
     prevheader.size = counter
