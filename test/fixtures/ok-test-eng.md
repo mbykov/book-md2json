@@ -25,7 +25,7 @@ My father told him no, very little company, the more was the pity.
 
 ### 2 Black Dog Appears and Disappears
 
-IT was not very long after this that there occurred the first of the mysterious events that rid us at last of the captain, though not, as you will see, of his affairs. It was a bitter cold winter, with long, hard frosts and heavy gales; and it was plain from the first that my poor father was little likely to see the spring. He sank daily, and my mother and I had all the inn upon our hands, and were kept busy enough without paying much regard to our unpleasant guest.
+IT was not very long after this that there occurred the first of the mysterious events that rid us at last of the captain, though not, as you will see, of his affairs. It was a bitter cold winter, with long, hard frosts and heavy gales; and it was plain from the first that my poor father was little likely to see the spring. He sank[3:7777] daily, and my mother and I had all the inn upon our hands, and were kept busy enough without paying much regard to our unpleasant guest.
 
 It was one January morning, very early--a pinching, frosty morning--the cove all grey with hoar-frost, the ripple lapping softly on the stones, the sun still low and only touching the hilltops and shining far to seaward. The captain had risen earlier than usual and set out down the beach, his cutlass swinging under the broad skirts of the old blue coat, his brass telescope under his arm, his hat tilted back upon his head. I remember his breath hanging like smoke in his wake as he strode off, and the last sound I heard of him as he turned the big rock was a loud snort of indignation, as though his mind was still running upon Dr. Livesey. [1]
 
@@ -49,3 +49,5 @@ I told him I did not know his mate Bill, and this was for a person who stayed in
 [2]: second comment in two paragraphs
 
 second line of the second comment of the second chapter
+
+[3:7777]: endnote, as like as in calibre epubs. May be template for endnotes at all

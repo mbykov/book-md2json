@@ -7,7 +7,6 @@ const log = console.log
 // const franc = require('franc')
 const naturalCompare = require("natural-compare-lite")
 
-
 export async function md2json(mds) {
   const fillsize = mds.length.toString().length
   let docs = []
@@ -51,14 +50,21 @@ export async function md2json(mds) {
     if (/^-/.test(md)) md = md.replace(/^-/, '').trim(), doc.type = 'list'
     // doc.lang = lang
 
+    // footnotes, endnotes:
     if (/^\[/.test(md)) {
       match = md.match(/\[([^\]]*)\]: ([^)]*)/)
       if (match) {
         doc.type = 'ref'
-        // let ref = match[1]
-        // log('_____=>', ref, 'md:', md)
+        let ref = match[1]
+        log('__match=>', match, 'md:', md)
         // md = match[1]
-        doc._id = ['ref', path, match[1]].join('-')
+        let refnote = ref.split(':')[1]
+        if (refnote) {
+          path = refnote
+          md = md.replace(':'+refnote, '')
+          ref = ref.replace(':'+refnote, '')
+        }
+        doc._id = ['ref', path, ref].join('-')
       }
     } else if (/^!\[/.test(md)) {
       doc.type = 'img'
