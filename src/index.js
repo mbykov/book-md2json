@@ -56,13 +56,12 @@ export async function md2json(mds) {
       if (match) {
         doc.type = 'ref'
         let ref = match[1]
-        log('__match=>', match, 'md:', md)
-        // md = match[1]
-        let refnote = ref.split(':')[1]
-        if (refnote) {
-          path = refnote
-          md = md.replace(':'+refnote, '')
-          ref = ref.replace(':'+refnote, '')
+        // log('__match=>', match, 'md:', md)
+        let refpath = ref.split(':')[1]
+        if (refpath) {
+          path = refpath
+          md = md.replace(':'+refpath, '')
+          ref = ref.replace(':'+refpath, '')
         }
         doc._id = ['ref', path, ref].join('-')
       }
