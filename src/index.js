@@ -52,11 +52,11 @@ export async function md2json(mds) {
 
     // footnotes, endnotes:
     if (/^\[/.test(md)) {
-      match = md.match(/\[([^\]]*)\]: ([^)]*)/)
+      match = md.match(/^\[([^\]]*)\]: /)
       if (match) {
         doc.type = 'ref'
         let ref = match[1]
-        // log('__match=>', match, 'md:', md)
+        // log('__match1=>', match, 'md:', md)
         let refpath = ref.split(':')[1]
         if (refpath) {
           path = refpath
@@ -65,6 +65,19 @@ export async function md2json(mds) {
         }
         doc._id = ['ref', path, ref].join('-')
       }
+    } else if (/\[/.test(md)) {
+      // log('__match-note__=>md:', md)
+      match = md.match(/\[([^\]]*)\]/)
+      if (match) {
+        // doc.type = 'note'
+        let ref = match[1]
+        // log('__match2=>', match, 'md:', md)
+        let refpath = ref.split(':')[1]
+        if (refpath) {
+          md = md.replace(':'+refpath, '')
+          doc.ref = refpath //.replace(':'+refpath, '')
+        }
+      }
     } else if (/^!\[/.test(md)) {
       doc.type = 'img'
     } else {
@@ -72,6 +85,7 @@ export async function md2json(mds) {
     }
     doc.md = md
 
+    if (doc.type == 'ref') log('__match2=> doc:', doc)
     counter++
     prevheader.size = counter
     docs.push(doc)

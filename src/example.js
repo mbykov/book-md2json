@@ -16,7 +16,7 @@ async function start(bpath) {
   // log('_LAST', mds.slice(-5))
   log('_mds:', mds.length)
   let docs = await md2json(mds)
-  log('_docs:', docs)
+  log('_docs:', docs.length)
 }
 
 start(bpath)
