@@ -64,7 +64,8 @@ export async function md2json(mds, lang) {
     doc.path = path
     filled = zerofill(counter, fillsize)
     if (/^-/.test(doc.md)) doc.md = doc.md.replace(/^-/, '').trim(), doc.type = 'list'
-    doc.lang = lang
+
+    // doc.lang = lang // lang не нужен, он в parsePar
 
     if (doc.note) {
       if (doc.endnote) doc._id = ['ref', doc.ref].join('-')
@@ -79,8 +80,8 @@ export async function md2json(mds, lang) {
     for (let ref of endnotes) {
       let noteref = '[' + ref + ']'
       if (doc.md.split(noteref).length > 1) {
-        let endnote = '[' + ref + '-end]'
-        doc.md = doc.md.replace(noteref, endnote)
+        if (!doc.endnotes) doc.endnotes = []
+        doc.endnotes.push(ref)
       }
     }
   }

@@ -18,11 +18,13 @@ async function start(bpath) {
   let docs = await md2json(mds, lang)
   let notes = docs.filter(doc=> doc.note)
   let endnotes = docs.filter(doc=> doc.endnote)
+  let hasendnotes = docs.filter(doc=> doc.endnotes)
 
   log('_mds:', mds.length)
   log('_docs:', docs.length)
   log('_notes:', notes.length)
   log('_endnotes:', endnotes.length)
+  log('_hasendnotes:', hasendnotes.length)
 }
 
 start(bpath)
