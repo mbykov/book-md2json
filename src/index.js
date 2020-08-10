@@ -85,7 +85,7 @@ export async function md2json(mds, lang) {
       }
     }
   }
-  return docs
+  return docs.reverse()
 }
 
 export async function importMarkdown(bpath, lang) {
