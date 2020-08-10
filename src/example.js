@@ -16,8 +16,8 @@ async function start(bpath) {
   let {descr, mds, imgs} = await importMarkdown(bpath, lang)
   log('_descr:', descr)
   let docs = await md2json(mds, lang)
-  let refs = docs.filter(doc=> doc.type == 'note')
-  log('_refs:', refs)
+  let notes = docs.filter(doc=> doc.note)
+  log('_notes:', notes)
   log('_mds:', mds.length)
   log('_docs:', docs.length)
 }

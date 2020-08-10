@@ -12,93 +12,109 @@ export async function md2json(mds, lang) {
   let docs = []
   let level = 0, headstart = -1
   let levnumkey = {}, path = '00', counter = 0, filled, match
-  // let prevheader = {level: 0, path: '00'}
   let prevheader = {level: 0}
   let parent = {level: 0}
 
-  for (let md of mds) {
-    let doc =  {_id: '', path: ''}
-    if (/^#/.test(md)) {
-      if (headstart < 0) headstart = md.match(/#/g).length - 1
-      level = md.match(/#/g).length - headstart
-      doc.level = level
-      md = md.replace(/#/g, '')
-    }
-
-    // todo: последовательность cleanStr и ndash ?
-    // найти notes сначала, потом обработать?
-
-    md = cleanStr(md)
-    if (!md) { log('_NO ROW', md); continue }
-    md = ndash(cleanStr(md))
-
-    if (doc.level > -1) {
-      level = doc.level
-      counter = 0
-      if (levnumkey[level] > -1) levnumkey[level] += 1
-      else levnumkey[level] = 0
-      doc.levnum = levnumkey[level] || 0
-
-      if (prevheader.level === level) path = [prevheader.path.slice(0,-1), levnumkey[level]].join('')
-      else if (prevheader.level < level) levnumkey[level] = 0, path = [prevheader.path, level, levnumkey[level]].join('')
-      else if (prevheader.level > level) {
-        // parent = _.last(_.filter(baredocs, (bdoc, idy)=> { return bdoc.level < doc.level  })) || {level: 0, path: '00'}
-        parent = _.last(_.filter(docs, (bdoc, idy)=> { return bdoc.level < doc.level  })) || {level: 0, path: '00'}
-        path = [parent.path, level, levnumkey[level]].join('')
-      }
-      prevheader = doc
-    }
-
-    doc.path = path
-    filled = zerofill(counter, fillsize)
-    if (/^-/.test(md)) md = md.replace(/^-/, '').trim(), doc.type = 'list'
-    doc.lang = lang
-
-    let notepath = path
-    // footnotes, endnotes:
-    if (/^\[/.test(md)) {
+  let endnote = true
+  for (let md of mds.reverse()) {
+    let doc =  {_id: '', path: '', c: counter}
+    if (/^\[/.test(md) && /^\[([^\]]*)\]: /.test(md)) {
       match = md.match(/^\[([^\]]*)\]: /)
+      doc.note = true
       if (match) {
-        doc.type = 'note'
-        let ref = match[1]
-        // log('__match1=>', match, 'md:', md)
-        let refpath = ref.split(':')[1]
-        if (refpath) {
-          notepath = refpath
-          md = md.replace(':'+refpath, '')
-          // doc.ref = notepath
-        }
-        filled = ref.split(':')[0]
-        notepath = ['ref', notepath].join('-')
+        if (endnote) doc.endnote = true
+        doc.ref = match[1]
       }
-
-      // note-sign in paragraph
-    } else if (/\[/.test(md)) {
-      // log('__match-note__=>md:', md)
-      match = md.match(/\[([^\]]*)\]/)
-      if (match) {
-        // doc.type = 'note'
-        let ref = match[1]
-        // log('__match2=>', match, 'md:', md)
-        let refpath = ref.split(':')[1]
-        if (refpath) {
-          md = md.replace(':'+refpath, '')
-          doc.ref = refpath
-        }
-        // filled = ref.split(':')[0]
-      }
-
-    } else if (/^!\[/.test(md)) {
-      doc.type = 'img'
-    // } else {
+    } else {
+      endnote = false
     }
-    doc._id = [notepath, filled].join('-')
-    doc.md = md
-
     counter++
-    prevheader.size = counter
     docs.push(doc)
   }
+  log('_D', docs.reverse())
+
+  // for (let md of mds) {
+  //   let doc =  {_id: '', path: ''}
+  //   if (/^#/.test(md)) {
+  //     if (headstart < 0) headstart = md.match(/#/g).length - 1
+  //     level = md.match(/#/g).length - headstart
+  //     doc.level = level
+  //     md = md.replace(/#/g, '')
+  //   }
+
+  //   // todo: последовательность cleanStr и ndash ?
+  //   // найти notes сначала, потом обработать?
+  //   md = cleanStr(md)
+  //   if (!md) { log('_NO ROW', md); continue }
+  //   md = ndash(cleanStr(md))
+
+  //   if (doc.level > -1) {
+  //     level = doc.level
+  //     counter = 0
+  //     if (levnumkey[level] > -1) levnumkey[level] += 1
+  //     else levnumkey[level] = 0
+  //     doc.levnum = levnumkey[level] || 0
+
+  //     if (prevheader.level === level) path = [prevheader.path.slice(0,-1), levnumkey[level]].join('')
+  //     else if (prevheader.level < level) levnumkey[level] = 0, path = [prevheader.path, level, levnumkey[level]].join('')
+  //     else if (prevheader.level > level) {
+  //       parent = _.last(_.filter(docs, (bdoc, idy)=> { return bdoc.level < doc.level  })) || {level: 0, path: '00'}
+  //       path = [parent.path, level, levnumkey[level]].join('')
+  //     }
+  //     prevheader = doc
+  //   }
+
+  //   doc.path = path
+  //   filled = zerofill(counter, fillsize)
+  //   if (/^-/.test(md)) md = md.replace(/^-/, '').trim(), doc.type = 'list'
+  //   doc.lang = lang
+
+  //   let notepath = path
+  //   // footnotes, endnotes:
+  //   if (/^\[/.test(md)) {
+  //     match = md.match(/^\[([^\]]*)\]: /)
+  //     if (match) {
+  //       doc.type = 'note'
+  //       let ref = match[1]
+  //       // log('__match1=>', match, 'md:', md)
+  //       let refpath = ref.split(':')[1]
+  //       if (refpath) {
+  //         notepath = refpath
+  //         md = md.replace(':'+refpath, '')
+  //         // doc.ref = notepath
+  //       }
+  //       filled = ref.split(':')[0]
+  //       notepath = ['ref', notepath].join('-')
+  //     }
+
+  //     // note-sign in paragraph
+  //   } else if (/\[/.test(md)) {
+  //     // log('__match-note__=>md:', md)
+  //     match = md.match(/\[([^\]]*)\]/)
+  //     if (match) {
+  //       // doc.type = 'note'
+  //       let ref = match[1]
+  //       // log('__match2=>', match, 'md:', md)
+  //       let refpath = ref.split(':')[1]
+  //       if (refpath) {
+  //         md = md.replace(':'+refpath, '')
+  //         doc.ref = refpath
+  //       }
+  //       // filled = ref.split(':')[0]
+  //     }
+
+  //   } else if (/^!\[/.test(md)) {
+  //     doc.type = 'img'
+  //   // } else {
+  //   }
+  //   doc._id = [notepath, filled].join('-')
+  //   doc.md = md
+
+    // counter++
+    // prevheader.size = counter
+    // docs.push(doc)
+  // }
+
   return docs
 }
 
