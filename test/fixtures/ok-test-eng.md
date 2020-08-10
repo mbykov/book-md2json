@@ -45,9 +45,11 @@ I told him I did not know his mate Bill, and this was for a person who stayed in
 
 [1]: some long comment: “Well,” said he, “my mate Bill would be called the captain, as like as not. He has a cut on one cheek and a mighty pleasant way with him, particularly in drink, has my mate Bill. We'll put it, for argument like, that your captain has a cut on one cheek--and we'll put it, if you like, that that cheek's the right one. Ah, well! I told you. Now, is my mate Bill in this here house?”
 
-[2]: second comment in two paragraphs
+[2]: second comment in two paragraphs // second line of the second comment of the second chapter
 
-second line of the second comment of the second chapter
+### Third chapter. Yo-ho-ho, and a bottle of rum!
+
+Yo-ho-ho, and a bottle of rum! - Endnotes separated from footnotes:
 
 [7776]: endnote, as like as in calibre epubs. May be template for endnotes at all
 [7777]: endnote, as like as in calibre epubs. May be template for endnotes at all
