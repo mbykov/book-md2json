@@ -15,6 +15,7 @@ export async function md2json(mds, lang) {
   let prevheader = {level: 0}
   let parent = {level: 0}
 
+  let endnotes = []
   let endnote = true
   for (let md of mds.reverse()) {
     if (!md) continue
@@ -23,7 +24,7 @@ export async function md2json(mds, lang) {
       match = md.match(/^\[([^\]]*)\]: /)
       doc.note = true
       if (match) {
-        if (endnote) doc.endnote = true
+        if (endnote) doc.endnote = true, endnotes.push(match[1])
         doc.ref = match[1]
       }
     } else if (/^!\[/.test(md)) {
@@ -73,6 +74,16 @@ export async function md2json(mds, lang) {
     counter++
   }
 
+  for (let doc of docs.reverse()) {
+    if (doc.note) continue
+    for (let ref of endnotes) {
+      let noteref = '[' + ref + ']'
+      if (doc.md.split(noteref).length > 1) {
+        let endnote = '[' + ref + '-end]'
+        doc.md = doc.md.replace(noteref, endnote)
+      }
+    }
+  }
   return docs
 }
 
