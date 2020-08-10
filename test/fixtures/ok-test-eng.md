@@ -19,7 +19,7 @@ in the high, old tottering voice that seemed to have been tuned and broken at th
 
 My father told him no, very little company, the more was the pity.
 
-[1]: My father told him no, very little company, the more was the pity.
+[1]: First comment: My father told him no, very little company, the more was the pity.
 
 [2]: long comment: My father told him no, very little company, the more was the pity. - “Fifteen men on the dead man's chest-- Yo-ho-ho, and a bottle of rum!”. My father told him no, very little company, the more was the pity. - “Fifteen men on the dead man's chest-- Yo-ho-ho, and a bottle of rum!” My father told him no, very little company, the more was the pity. - “Fifteen men on the dead man's chest-- Yo-ho-ho, and a bottle of rum!”
 

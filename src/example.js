@@ -10,24 +10,16 @@ bpath = '../test/fixtures/ok-test-eng.md'
 
 bpath = path.resolve(__dirname, bpath)
 log('RUN BPATH:', bpath)
+let lang = 'eng'
 
 async function start(bpath) {
-  let {mds, imgs} = await importMarkdown(bpath)
-  // log('_LAST', mds.slice(-5))
+  let {descr, mds, imgs} = await importMarkdown(bpath, lang)
+  log('_descr:', descr)
+  let docs = await md2json(mds, lang)
+  let refs = docs.filter(doc=> doc.type == 'note')
+  log('_refs:', refs)
   log('_mds:', mds.length)
-  let docs = await md2json(mds)
   log('_docs:', docs.length)
 }
 
 start(bpath)
-
-// md2json(bpath)
-//   .then(res=> {
-//     if (!res) returnn
-//     log('_B-res', res.docs.length)
-//     if (!res.docs) return
-//     log('_LAST', res.docs.slice(-1))
-//     res.docs.forEach(doc=> {
-//       if (doc.level > -1) log('_title:', doc)
-//     })
-//   })

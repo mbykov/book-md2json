@@ -7,7 +7,7 @@ const log = console.log
 // const franc = require('franc')
 const naturalCompare = require("natural-compare-lite")
 
-export async function md2json(mds) {
+export async function md2json(mds, lang) {
   const fillsize = mds.length.toString().length
   let docs = []
   let level = 0, headstart = -1
@@ -15,6 +15,7 @@ export async function md2json(mds) {
   // let prevheader = {level: 0, path: '00'}
   let prevheader = {level: 0}
   let parent = {level: 0}
+
   for (let md of mds) {
     let doc =  {_id: '', path: ''}
     if (/^#/.test(md)) {
@@ -23,7 +24,10 @@ export async function md2json(mds) {
       doc.level = level
       md = md.replace(/#/g, '')
     }
-    // последовательность cleanStr и ndash ?
+
+    // todo: последовательность cleanStr и ndash ?
+    // найти notes сначала, потом обработать?
+
     md = cleanStr(md)
     if (!md) { log('_NO ROW', md); continue }
     md = ndash(cleanStr(md))
@@ -48,23 +52,27 @@ export async function md2json(mds) {
     doc.path = path
     filled = zerofill(counter, fillsize)
     if (/^-/.test(md)) md = md.replace(/^-/, '').trim(), doc.type = 'list'
-    // doc.lang = lang
+    doc.lang = lang
 
+    let notepath = path
     // footnotes, endnotes:
     if (/^\[/.test(md)) {
       match = md.match(/^\[([^\]]*)\]: /)
       if (match) {
-        doc.type = 'ref'
+        doc.type = 'note'
         let ref = match[1]
         // log('__match1=>', match, 'md:', md)
         let refpath = ref.split(':')[1]
         if (refpath) {
-          path = refpath
+          notepath = refpath
           md = md.replace(':'+refpath, '')
-          ref = ref.replace(':'+refpath, '')
+          // doc.ref = notepath
         }
-        // doc._id = ['ref', path, ref].join('-')
+        filled = ref.split(':')[0]
+        notepath = ['ref', notepath].join('-')
       }
+
+      // note-sign in paragraph
     } else if (/\[/.test(md)) {
       // log('__match-note__=>md:', md)
       match = md.match(/\[([^\]]*)\]/)
@@ -77,12 +85,14 @@ export async function md2json(mds) {
           md = md.replace(':'+refpath, '')
           doc.ref = refpath
         }
+        // filled = ref.split(':')[0]
       }
+
     } else if (/^!\[/.test(md)) {
       doc.type = 'img'
     // } else {
     }
-    doc._id = [path, filled].join('-')
+    doc._id = [notepath, filled].join('-')
     doc.md = md
 
     counter++
@@ -92,7 +102,7 @@ export async function md2json(mds) {
   return docs
 }
 
-export async function importMarkdown(bpath) {
+export async function importMarkdown(bpath, lang) {
   let md = ''
   try {
     let stats = fse.statSync(bpath)
@@ -105,13 +115,10 @@ export async function importMarkdown(bpath) {
 
   let cleanstr = cleanStr(md.trim())
   let mds = cleanstr.split(/\n+/)
-  // mds = _.compact(mds)
-  // let refs = mds.filter(row=> row[0] == '[')
-  // mds = mds.filter(row=> row[0] != '[')
-  // mds.push(...refs)
 
   let imgs = []
-  return {mds, imgs}
+  let descr = {type: 'type', lang: lang, author: 'author', title: 'title'}
+  return {descr, mds, imgs}
 }
 
 
