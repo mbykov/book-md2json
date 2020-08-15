@@ -13,14 +13,12 @@ log('RUN BPATH:', bpath)
 let lang = 'eng'
 
 async function start(bpath) {
-  let {descr, mds, imgs} = await importMarkdown(bpath, lang)
+  let {descr, docs, imgs}  = await md2json(bpath)
   log('_descr:', descr)
-  let docs = await md2json(mds, lang)
   let notes = docs.filter(doc=> doc.note)
   let endnotes = docs.filter(doc=> doc.endnote)
   let hasendnotes = docs.filter(doc=> doc.endnotes)
 
-  log('_mds:', mds.length)
   log('_docs:', docs.length)
   log('_notes:', notes.length)
   log('_endnotes:', endnotes.length)

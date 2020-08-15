@@ -7,7 +7,10 @@ const log = console.log
 // const franc = require('franc')
 const naturalCompare = require("natural-compare-lite")
 
-export async function md2json(mds, lang) {
+export async function md2json(bpath) {
+  let descr = {type: 'type', author: 'author', title: 'title'}
+  let {mds, imgs} = await importMarkdown(bpath)
+
   const fillsize = mds.length.toString().length
   let docs = []
   let level = 0, headstart = -1
@@ -58,6 +61,7 @@ export async function md2json(mds, lang) {
         parent = _.last(_.filter(docs, (bdoc, idy)=> { return bdoc.level < doc.level  })) || {level: 0, path: '00'}
         path = [parent.path, level, levnumkey[level]].join('')
       }
+
       prevheader = doc
     }
 
@@ -85,10 +89,11 @@ export async function md2json(mds, lang) {
       }
     }
   }
-  return docs.reverse()
+  docs = docs.reverse()
+  return { descr, docs, imgs }
 }
 
-export async function importMarkdown(bpath, lang) {
+export async function importMarkdown(bpath) {
   let md = ''
   try {
     let stats = fse.statSync(bpath)
@@ -101,10 +106,8 @@ export async function importMarkdown(bpath, lang) {
 
   let cleanstr = cleanStr(md.trim())
   let mds = cleanstr.split(/\n+/)
-
   let imgs = []
-  let descr = {type: 'type', lang: lang, author: 'author', title: 'title'}
-  return {descr, mds, imgs}
+  return {mds: mds, imgs: imgs}
 }
 
 
@@ -144,85 +147,3 @@ function zerofill(number, size) {
   while (number.length < size) number = "0" + number
   return number
 }
-
-  // for (let md of mds) {
-  //   let doc =  {_id: '', path: ''}
-  //   if (/^#/.test(md)) {
-  //     if (headstart < 0) headstart = md.match(/#/g).length - 1
-  //     level = md.match(/#/g).length - headstart
-  //     doc.level = level
-  //     md = md.replace(/#/g, '')
-  //   }
-
-  //   // todo: последовательность cleanStr и ndash ?
-  //   // найти notes сначала, потом обработать?
-  //   md = cleanStr(md)
-  //   if (!md) { log('_NO ROW', md); continue }
-  //   md = ndash(cleanStr(md))
-
-  //   if (doc.level > -1) {
-  //     level = doc.level
-  //     counter = 0
-  //     if (levnumkey[level] > -1) levnumkey[level] += 1
-  //     else levnumkey[level] = 0
-  //     doc.levnum = levnumkey[level] || 0
-
-  //     if (prevheader.level === level) path = [prevheader.path.slice(0,-1), levnumkey[level]].join('')
-  //     else if (prevheader.level < level) levnumkey[level] = 0, path = [prevheader.path, level, levnumkey[level]].join('')
-  //     else if (prevheader.level > level) {
-  //       parent = _.last(_.filter(docs, (bdoc, idy)=> { return bdoc.level < doc.level  })) || {level: 0, path: '00'}
-  //       path = [parent.path, level, levnumkey[level]].join('')
-  //     }
-  //     prevheader = doc
-  //   }
-
-  //   doc.path = path
-  //   filled = zerofill(counter, fillsize)
-  //   if (/^-/.test(md)) md = md.replace(/^-/, '').trim(), doc.type = 'list'
-  //   doc.lang = lang
-
-  //   let notepath = path
-  //   // footnotes, endnotes:
-  //   if (/^\[/.test(md)) {
-  //     match = md.match(/^\[([^\]]*)\]: /)
-  //     if (match) {
-  //       doc.type = 'note'
-  //       let ref = match[1]
-  //       // log('__match1=>', match, 'md:', md)
-  //       let refpath = ref.split(':')[1]
-  //       if (refpath) {
-  //         notepath = refpath
-  //         md = md.replace(':'+refpath, '')
-  //         // doc.ref = notepath
-  //       }
-  //       filled = ref.split(':')[0]
-  //       notepath = ['ref', notepath].join('-')
-  //     }
-
-  //     // note-sign in paragraph
-  //   } else if (/\[/.test(md)) {
-  //     // log('__match-note__=>md:', md)
-  //     match = md.match(/\[([^\]]*)\]/)
-  //     if (match) {
-  //       // doc.type = 'note'
-  //       let ref = match[1]
-  //       // log('__match2=>', match, 'md:', md)
-  //       let refpath = ref.split(':')[1]
-  //       if (refpath) {
-  //         md = md.replace(':'+refpath, '')
-  //         doc.ref = refpath
-  //       }
-  //       // filled = ref.split(':')[0]
-  //     }
-
-  //   } else if (/^!\[/.test(md)) {
-  //     doc.type = 'img'
-  //   // } else {
-  //   }
-  //   doc._id = [notepath, filled].join('-')
-  //   doc.md = md
-
-    // counter++
-    // prevheader.size = counter
-    // docs.push(doc)
-  // }
