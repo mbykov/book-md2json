@@ -20,6 +20,7 @@ export async function md2json(bpath) {
 
   let endnotes = []
   let endnote = true
+
   for (let md of mds.reverse()) {
     if (!md) continue
     let doc =  {_id: '', path: ''}
@@ -35,13 +36,14 @@ export async function md2json(bpath) {
     } else {
       endnote = false
     }
-    md = cleanStr(md)
     md = ndash(cleanStr(md))
     doc.md = md
     docs.push(doc)
   }
 
-  for (let doc of docs.reverse()) {
+  docs = docs.reverse()
+
+  for (let doc of docs) {
     if (/^#/.test(doc.md)) {
       if (headstart < 0) headstart = doc.md.match(/#/g).length - 1
       level = doc.md.match(/#/g).length - headstart
@@ -53,7 +55,7 @@ export async function md2json(bpath) {
       counter = 0
       if (levnumkey[level] > -1) levnumkey[level] += 1
       else levnumkey[level] = 0
-      doc.levnum = levnumkey[level] || 0
+      // doc.levnum = levnumkey[level] || 0
 
       if (prevheader.level === level) path = [prevheader.path.slice(0,-1), levnumkey[level]].join('')
       else if (prevheader.level < level) levnumkey[level] = 0, path = [prevheader.path, level, levnumkey[level]].join('')
@@ -61,7 +63,6 @@ export async function md2json(bpath) {
         parent = _.last(_.filter(docs, (bdoc, idy)=> { return bdoc.level < doc.level  })) || {level: 0, path: '00'}
         path = [parent.path, level, levnumkey[level]].join('')
       }
-
       prevheader = doc
     }
 
@@ -69,17 +70,18 @@ export async function md2json(bpath) {
     filled = zerofill(counter, fillsize)
     if (/^-/.test(doc.md)) doc.md = doc.md.replace(/^-/, '').trim(), doc.type = 'list'
 
-    // doc.lang = lang // lang не нужен, он в parsePar
-
     if (doc.note) {
       if (doc.endnote) doc._id = ['ref', doc.ref].join('-')
       else doc._id = ['ref', doc.path, doc.ref].join('-')
-    } else doc._id = [doc.path, filled].join('-')
-
-    counter++
+    } else {
+      counter++
+      doc._id = [doc.path, filled].join('-')
+    }
+    prevheader.size = counter
   }
 
-  for (let doc of docs.reverse()) {
+
+  for (let doc of docs) {
     if (doc.note) continue
     for (let ref of endnotes) {
       let noteref = '[' + ref + ']'
@@ -89,7 +91,7 @@ export async function md2json(bpath) {
       }
     }
   }
-  docs = docs.reverse()
+
   return { descr, docs, imgs }
 }
 

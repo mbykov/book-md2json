@@ -17,12 +17,14 @@ async function start(bpath) {
   log('_descr:', descr)
   let notes = docs.filter(doc=> doc.note)
   let endnotes = docs.filter(doc=> doc.endnote)
-  let hasendnotes = docs.filter(doc=> doc.endnotes)
+  let endrefs = docs.filter(doc=> doc.endnotes)
+  let headers = docs.filter(doc=> doc.level)
 
   log('_docs:', docs.length)
   log('_notes:', notes.length)
   log('_endnotes:', endnotes.length)
-  log('_hasendnotes:', hasendnotes.length)
+  log('_endrefs:', endrefs.length)
+  log('_headers:', headers)
 }
 
 start(bpath)
