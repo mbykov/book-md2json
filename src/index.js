@@ -13,7 +13,6 @@ export async function md2json(bpath) {
 
   if (!mds || !mds.length) return {descr: 'no file' + bpath}
 
-  // const fillsize = mds.length.toString().length
   let docs = []
   let level = 0
   let match
