@@ -76,9 +76,9 @@ export async function importMarkdown(bpath) {
   }
 
   let cleanstr = cleanStr(md)
-  log('_STR', cleanstr.length)
+  // log('_STR', cleanstr.length)
   let mds = cleanstr.split(/\n+/)
-  log('_MDS', mds.length)
+  // log('_MDS', mds.length)
   let imgs = []
   return {mds: mds, imgs: imgs}
 }
