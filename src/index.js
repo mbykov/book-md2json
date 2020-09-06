@@ -56,6 +56,9 @@ export async function md2json(bpath) {
       doc.level = level
       md = md.replace(/#/g, '').trim()
     }
+    else if (/^\d/.test(md)) {
+      md = '&nbsp;' + md
+    }
     doc.md = md
     docs.push(doc)
   }
