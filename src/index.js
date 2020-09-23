@@ -13,6 +13,13 @@ export async function md2json(bpath) {
 
   if (!mds || !mds.length) return {descr: 'no file' + bpath}
 
+  // options.fn coud be [] or [[]]:
+  // let reFnSign = /^\[([^\]]*)\]: /
+  // if (options && options.fn) {
+  //   if (options.fn == '[[]]') reFnSign = /^\[\[([^\]]*)\]\]: /
+  //   log('___RE FN', options.fn, reFnSign)
+  // }
+
   let docs = []
   let level = 0
   let match
@@ -27,10 +34,11 @@ export async function md2json(bpath) {
 
     if (/^\[/.test(md)) {
       match = md.match(/^\[([^\]]*)\]: /)
-      doc.footnote = true
+      // match = md.match(reFnSign)
       if (match) {
         let refnote = match[1]
         doc.refnote = refnote
+        doc.footnote = true
         if (endnote) {
           endnotes.push(refnote)
           doc._id = ['ref', refnote].join('-')

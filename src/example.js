@@ -8,6 +8,7 @@ import { importMarkdown, md2json } from "./index";
 let bpath = '../test/fixtures/'
 let fn = 'ok-test-eng.md'
 fn = 'Robinson-Crusoe.eng.md'
+fn = 'book_1.gr.aristotle.md'
 
 bpath = path.resolve(__dirname, bpath, fn)
 log('RUN BPATH:', bpath)
