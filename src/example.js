@@ -9,6 +9,7 @@ let bpath = '../test/fixtures/'
 let fn = 'ok-test-eng.md'
 fn = 'Robinson-Crusoe.eng.md'
 fn = 'book_1.gr.aristotle.md'
+fn = 'Harry-Potter-and-the-Order-of-the-Phoenix.md'
 
 bpath = path.resolve(__dirname, bpath, fn)
 log('RUN BPATH:', bpath)

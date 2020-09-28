@@ -87,9 +87,8 @@ export async function importMarkdown(bpath) {
   }
 
   let cleanstr = cleanStr(md)
-  // log('_STR', cleanstr.length)
-  let mds = cleanstr.split(/\n+/)
-  // log('_MDS', mds.length)
+  let mds = cleanstr.split('LINE-BREAK')
+  mds = _.compact(mds)
   let imgs = []
   return {mds: mds, imgs: imgs}
 }
@@ -104,16 +103,14 @@ async function readDir(bpath) {
   for (const fn of fns) {
     let filepath = path.resolve(bpath, fn)
     const stats = fse.statSync(filepath)
-    // log('_FP', fn)
     if (stats.isDirectory()) md += await readDir(filepath)
     else md += await fse.readFile(filepath, 'utf-8')
   }
-  // log('_FP-md', bpath, md.length)
   return md
 }
 
 export function cleanStr(str) {
-  return str.replace(/\n+/, '\n').replace(/↵+/, '\n').replace(/  +/, ' ').trim()
+  return str.replace(/\n+/g, 'LINE-BREAK').replace(/\r+/g, '').replace(/↵+/, '\n').replace(/\s\s+/g, ' ').trim() // replace(/  +/, ' ')
 }
 
 // function guessLang(docs) {
