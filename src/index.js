@@ -7,18 +7,16 @@ const log = console.log
 // const franc = require('franc')
 const naturalCompare = require("natural-compare-lite")
 
-export async function md2json(bpath) {
-  let descr = {type: 'type', author: 'author', title: 'title'}
-  let {mds, imgs} = await importMarkdown(bpath)
+export async function md2json(param, imgs) {
+  let mds
+  if (_.isString(param)) {
+    [mds, imgs] = await importMarkdown(param)
+  } else if (_.isArray(param)) {
+    mds = param
+    log('_md2json', mds.length)
+  }
 
-  if (!mds || !mds.length) return {descr: 'no file' + bpath}
-
-  // options.fn coud be [] or [[]]:
-  // let reFnSign = /^\[([^\]]*)\]: /
-  // if (options && options.fn) {
-  //   if (options.fn == '[[]]') reFnSign = /^\[\[([^\]]*)\]\]: /
-  //   log('___RE FN', options.fn, reFnSign)
-  // }
+  if (!mds || !mds.length) return {descr: 'no file' + param}
 
   let docs = []
   let level = 0
@@ -72,6 +70,8 @@ export async function md2json(bpath) {
   }
 
   docs = docs.reverse()
+  log('_md2json-docs', docs.length)
+  let descr = {type: 'md', author: 'author', title: 'title'}
   return { descr, docs, imgs }
 }
 
@@ -90,7 +90,8 @@ export async function importMarkdown(bpath) {
   let mds = cleanstr.split('LINE-BREAK')
   mds = _.compact(mds)
   let imgs = []
-  return {mds: mds, imgs: imgs}
+  // return {mds: mds, imgs: imgs}
+  return [mds, imgs]
 }
 
 
@@ -110,14 +111,8 @@ async function readDir(bpath) {
 }
 
 export function cleanStr(str) {
-  return str.replace(/\n+/g, 'LINE-BREAK').replace(/\r+/g, '').replace(/↵+/, '\n').replace(/\s\s+/g, ' ').trim() // replace(/  +/, ' ')
+  return str.replace(/\n+/g, 'LINE-BREAK').replace(/\r+/g, '').replace(/↵+/, '\n').replace(/\s\s+/g, ' ').replace(/[”“]/g, '"').trim() // replace(/  +/, ' ')
 }
-
-// function guessLang(docs) {
-//   let test = docs.map(doc=> doc._id).join(' ')
-//   return franc(test)
-// }
-
 
 function ndash(str) {
   return str.trim().replace(/^--/, '–').replace(/^—/, '–').replace(/ - /g, ' – ') // m-dash: —
@@ -128,3 +123,8 @@ function zerofill(number, size) {
   while (number.length < size) number = "0" + number
   return number
 }
+
+// function guessLang(docs) {
+//   let test = docs.map(doc=> doc._id).join(' ')
+//   return franc(test)
+// }

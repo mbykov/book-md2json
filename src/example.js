@@ -3,7 +3,7 @@
 const path = require("path")
 const log = console.log
 
-import { importMarkdown, md2json } from "./index";
+import { md2json } from "./index";
 
 let bpath = '../test/fixtures/'
 let fn = 'ok-test-eng.md'
