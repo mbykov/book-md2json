@@ -4,7 +4,6 @@ import _ from 'lodash'
 const fse = require('fs-extra')
 const path = require("path")
 const log = console.log
-// const franc = require('franc')
 const naturalCompare = require("natural-compare-lite")
 
 export async function md2json(param, imgs) {
@@ -13,7 +12,7 @@ export async function md2json(param, imgs) {
     [mds, imgs] = await importMarkdown(param)
   } else if (_.isArray(param)) {
     mds = param
-    log('_md2json', mds.length)
+    // log('_md2json', mds.length)
   }
 
   if (!mds || !mds.length) return {descr: 'no file' + param}
@@ -117,14 +116,3 @@ export function cleanStr(str) {
 function ndash(str) {
   return str.trim().replace(/^--/, '–').replace(/^—/, '–').replace(/ - /g, ' – ') // m-dash: —
 }
-
-function zerofill(number, size) {
-  number = number.toString()
-  while (number.length < size) number = "0" + number
-  return number
-}
-
-// function guessLang(docs) {
-//   let test = docs.map(doc=> doc._id).join(' ')
-//   return franc(test)
-// }
