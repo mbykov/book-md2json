@@ -61,8 +61,11 @@ export async function md2json(param, imgs) {
       doc.level = level
       md = md.replace(/#/g, '').trim()
     }
-    else if (/^\d/.test(md)) {
-      md = '&nbsp;' + md
+    else if (/^-[^ ]/.test(md)) {
+      md = md.replace(/^-/, '')
+      doc.type = 'list'
+    } else if (/^\d/.test(md)) {
+        md = '&nbsp;' + md
     }
     doc.md = md
     docs.push(doc)

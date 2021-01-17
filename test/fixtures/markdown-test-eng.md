@@ -104,3 +104,7 @@ This is a sample text. Some people believe that it does not contain any meaning,
 This is a sample text. Some people believe that it does not contain any meaning, since it is not intended for reading and understanding at all. Therefore, quite reasonable doubts arise that this is generally a text.
 
 [image-logo]: https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png
+
+-List 1
+-List 2
+-List 3
