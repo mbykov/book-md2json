@@ -117,5 +117,5 @@ export function cleanStr(str) {
 }
 
 function ndash(str) {
-  return str.trim().replace(/^--/, '–').replace(/^—/, '–').replace(/ - /g, ' – ') // m-dash: —
+  return str.trim().replace(/^- /, '– ').replace(/^--/, '–').replace(/^—/, '–').replace(/ - /g, ' – ') // m-dash: —
 }
