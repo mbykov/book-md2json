@@ -17,7 +17,7 @@ export async function md2json(param, imgs) {
 
   if (!mds || !mds.length) return {descr: 'no file' + param}
 
-  let docs = []
+  let reversed = []
   let level = 0
   let match
 
@@ -25,10 +25,8 @@ export async function md2json(param, imgs) {
   let endnote = true
 
   for (let md of mds.reverse()) {
-    if (!md) continue
     md = ndash(cleanStr(md))
     let doc =  {}
-
     if (/^\[/.test(md)) {
       match = md.match(/^\[([^\]]*)\]: /)
       // match = md.match(reFnSign)
@@ -68,11 +66,21 @@ export async function md2json(param, imgs) {
         md = '&nbsp;' + md
     }
     doc.md = md
+    reversed.push(doc)
+  }
+
+  let docs = []
+
+  let ulist = true
+  for (let doc of reversed.reverse()) {
+    if (!doc.md) {
+      ulist = true
+      continue
+    }
+    if (ulist && doc.type == 'list') doc.type = 'ulist', ulist = false
     docs.push(doc)
   }
 
-  docs = docs.reverse()
-  log('_md2json-docs', docs.length)
   let descr = {type: 'md', author: 'author', title: 'title'}
   return { descr, docs, imgs }
 }
@@ -90,9 +98,8 @@ export async function importMarkdown(bpath) {
 
   let cleanstr = cleanStr(md)
   let mds = cleanstr.split('LINE-BREAK')
-  mds = _.compact(mds)
+  // mds = _.compact(mds)
   let imgs = []
-  // return {mds: mds, imgs: imgs}
   return [mds, imgs]
 }
 
@@ -113,7 +120,7 @@ async function readDir(bpath) {
 }
 
 export function cleanStr(str) {
-  return str.replace(/\n+/g, 'LINE-BREAK').replace(/\r+/g, '').replace(/↵+/, '\n').replace(/\s\s+/g, ' ').replace(/[”“]/g, '"').trim() // replace(/  +/, ' ')
+  return str.replace(/\n/g, 'LINE-BREAK').replace(/\r+/g, '').replace(/↵+/, '\n').replace(/\s\s+/g, ' ').replace(/[”“]/g, '"').trim() // replace(/  +/, ' ') // str.replace(/\n+/g, 'LINE-BREAK')
 }
 
 function ndash(str) {

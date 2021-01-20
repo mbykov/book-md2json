@@ -14,6 +14,18 @@ New paragraph. This is a sample text. Some people believe that it does not conta
 
 A paragraph after image
 
+### lists
+
+New paragraph. This is a sample text. Some people believe that it does not contain any meaning, since it is not intended for reading and understanding at all. Therefore, quite reasonable doubts arise that this is generally a text. Therefore, **this is a sample of non-text**.
+
+-defis 1
+-defis 2
+-defis 3
+
+-defis 1
+-defis 2
+-defis 3
+
 ### Title 10-20-30 to be del
 
 Some stupid string to be deleted with the whole section
@@ -22,12 +34,14 @@ This is a sample text. Some people believe that it does not contain any meaning,
 
 New paragraph. This is a sample text. Some people believe that it does not contain any meaning, since it is not intended for reading and understanding at all. Therefore, quite reasonable doubts arise that this is generally a text. Therefore, **this is a sample of non-text**.
 
-- List 1
-- List 2
-- List 3
-- List 1
-- List 2
-- List 3
+- dialogue 1
+- dialogue 2
+- dialogue 3
+- dialogue 1
+- dialogue 2
+- dialogue 3
+
+New paragraph. This is a sample text. Some people believe that it does not contain any meaning, since it is not intended for reading and understanding at all. Therefore, quite reasonable doubts arise that this is generally a text. Therefore, **this is a sample of non-text**.
 
 This is a sample text. Some people believe that it does not contain any meaning, since it is not intended for reading and understanding at all. Therefore, quite reasonable doubts arise that this is generally a text. = test accountant barley Indian summer  lightning
 
@@ -105,6 +119,6 @@ This is a sample text. Some people believe that it does not contain any meaning,
 
 [image-logo]: https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png
 
--List 1
--List 2
--List 3
+-defis 1
+-defis 2
+-defis 3

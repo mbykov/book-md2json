@@ -8,9 +8,11 @@ import { md2json } from "./index";
 let bpath = '../test/fixtures/'
 let fn = 'ok-test-eng.md'
 fn = 'markdown-test-eng.md'
+fn = 'markdown-test-list.md'
 // fn = 'Robinson-Crusoe.eng.md'
 // fn = 'book_1.gr.aristotle.md'
 // fn = 'Harry-Potter-and-the-Order-of-the-Phoenix.md'
+// fn = 'Le-Petit-Prince.rus.md'
 
 bpath = path.resolve(__dirname, bpath, fn)
 log('RUN BPATH:', bpath)
@@ -29,7 +31,7 @@ async function start(bpath) {
   log('_footnotes:', footnotes.length)
   log('_endnotes:', endnotes.length)
   log('_refs:', refs.length)
-  log('_headers:', headers)
+  log('_headers:', headers.length)
 }
 
 start(bpath)
