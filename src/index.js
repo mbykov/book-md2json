@@ -12,7 +12,6 @@ export async function md2json(param, imgs) {
     [mds, imgs] = await importMarkdown(param)
   } else if (_.isArray(param)) {
     mds = param
-    // log('_md2json', mds.length)
   }
 
   if (!mds || !mds.length) return {descr: 'no file' + param}
@@ -102,7 +101,6 @@ export async function importMarkdown(bpath) {
   let imgs = []
   return [mds, imgs]
 }
-
 
 async function readDir(bpath) {
   let md = ''
