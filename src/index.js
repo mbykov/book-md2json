@@ -92,7 +92,7 @@ export async function importMarkdown(bpath) {
     else md += await fse.readFile(bpath, 'utf-8')
   } catch(err) {
     let errmess = 'something wrong with ' + bpath
-    return {err: errmess}
+    return [{err: errmess}]
   }
 
   let cleanstr = cleanStr(md)
