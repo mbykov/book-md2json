@@ -33,7 +33,6 @@ export async function md2json(param, imgs) {
         let refnote = match[1]
         doc.footnote = true
         if (endnote) doc.endnote = true
-        // doc.ref = ['ref', refnote].join('-')
         doc.ref = refnote
         doc._id = ['ref', idx, refnote].join('-')
         fnrefs.push(doc)
@@ -44,11 +43,8 @@ export async function md2json(param, imgs) {
       doc.refnotes = {}
       mdrefs.forEach(mdref=> {
         let refnote = mdref.replace(/[\[\]]/g, '')
-        // let fndoc = fnrefs.find(doc=> ['ref', refnote].join('-') == doc.ref)
         let fndoc = fnrefs.find(doc=> refnote == doc.ref)
         if (!fndoc) return
-        // if (fndoc) log('_________mdref_', refnote, fndoc.ref)
-        // if (fndoc) doc.refnotes[refnote] = ['ref', fndoc.ref].join('-')
         if (fndoc) doc.refnotes[refnote] = fndoc._id, delete fndoc.ref
       })
     } else if (/^!\[/.test(md)) {
@@ -82,7 +78,6 @@ export async function md2json(param, imgs) {
       match = md.match(/^\[([^\]]*)\]: /)
       if (match) {
         let refnote = match[1]
-        // log('_refnote', refnote)
         doc.footnote = true
         if (endnote) doc.endnote = true
         doc.ref = ['ref', refnote].join('-')
@@ -97,7 +92,6 @@ export async function md2json(param, imgs) {
         doc.refnotes = {}
         let fnref = fnrefs.find(doc=> ['ref', refnote].join('-') == doc.ref)
         if (!fnref) continue
-        // log('_________mdref_', mdref, refnote, fnref.ref)
         if (fnref) doc.refnotes[refnote] = ['ref', fnref.ref].join('-')
       }
     } else if (/^!\[/.test(md)) {
@@ -153,7 +147,6 @@ export async function importMarkdown(bpath) {
 
   let cleanstr = cleanStr(md)
   let mds = cleanstr.split('LINE-BREAK')
-  // mds = _.compact(mds)
   let imgs = []
   return [mds, imgs]
 }
