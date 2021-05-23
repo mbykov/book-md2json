@@ -6,9 +6,9 @@ by Robert Louis Stevenson
 
 ### 1 The Old Sea-dog at the Admiral Benbow
 
-SQUIRE TRELAWNEY, Dr. Livesey, and the rest of these gentlemen having asked me to write down the whole particulars about Treasure Island, from the beginning to the end, keeping nothing back but the bearings of the island, and that only because there is still treasure not yet lifted, I take up my pen in the year of grace 17__ and go back to the time when my father kept the Admiral Benbow inn and the brown old seaman with the sabre cut first took up his lodging under our roof.
+SQUIRE TRELAWNEY, Dr. Livesey, and the rest [1] of these gentlemen having asked me to write down the whole particulars about Treasure Island, from the beginning to the end, keeping nothing back but the bearings of the island, and that [2] only because there is still treasure not yet lifted, I take up my pen in the year of grace 1763 and go back to the time when my father kept the Admiral Benbow inn and the brown old seaman with the sabre cut first took up his lodging under our roof.
 
-I remember him as if it were yesterday, as he came plodding to the inn door, his sea-chest following behind him in a hand-barrow--a tall, strong, heavy, nut-brown man, his tarry pigtail falling over the shoulder of his soiled blue coat, his hands ragged and scarred, with black, broken nails, and the sabre cut across one cheek, a dirty, livid white. I remember him looking round the cover and whistling to himself as he did so, and then breaking out in that old sea-song that he sang so often afterwards [1]
+I remember him as if it were yesterday, as he came [7777] plodding[7776] to the inn door, his sea-chest following behind him in a hand-barrow--a tall, strong, heavy, nut-brown man, his tarry pigtail falling over the shoulder of his soiled blue coat, his hands ragged and scarred, with black, broken nails, and the sabre cut across one cheek, a dirty, livid white. I remember him looking round the cover and whistling to himself as he did so, and then breaking out in that old sea-song that he sang so often afterwards [1]
 
 “Fifteen men on the dead man's chest--
 Yo-ho-ho, and a bottle of rum!” [2]
@@ -43,9 +43,9 @@ I told him I did not know his mate Bill, and this was for a person who stayed in
 
 “Well,” said he, “my mate Bill would be called the captain, as like as not. He has a cut on one cheek and a mighty pleasant way with him, particularly in drink, has my mate Bill. We'll put it, for argument like, that your captain has a cut on one cheek--and we'll put it, if you like, that that cheek's the right one. Ah, well! I told you. Now, is my mate Bill in this here house?”
 
-[1]: some long comment: “Well,” said he, “my mate Bill would be called the captain, as like as not. He has a cut on one cheek and a mighty pleasant way with him, particularly in drink, has my mate Bill. We'll put it, for argument like, that your captain has a cut on one cheek--and we'll put it, if you like, that that cheek's the right one. Ah, well! I told you. Now, is my mate Bill in this here house?”
+[1]: chapter 2: some long comment: “Well,” said he, “my mate Bill would be called the captain, as like as not. He has a cut on one cheek and a mighty pleasant way with him, particularly in drink, has my mate Bill. We'll put it, for argument like, that your captain has a cut on one cheek--and we'll put it, if you like, that that cheek's the right one. Ah, well! I told you. Now, is my mate Bill in this here house?”
 
-[2]: second comment in two paragraphs // second line of the second comment of the second chapter
+[2]: chapter 2: second comment in two paragraphs // second line of the second comment of the second chapter
 
 ### Third chapter. Yo-ho-ho, and a bottle of rum!
 
