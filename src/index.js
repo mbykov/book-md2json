@@ -20,7 +20,7 @@ export async function md2json(param, imgs) {
   let level = 0
   let match
 
-  let fnrefs = []
+  let fndocs = []
   let idx = 0
   let endnote = true
 
@@ -35,7 +35,7 @@ export async function md2json(param, imgs) {
         if (endnote) doc.endnote = true
         doc.ref = refnote
         doc._id = ['ref', idx, refnote].join('-')
-        fnrefs.push(doc)
+        fndocs.push(doc)
       }
     } else if (/\[/.test(md)) {
       let regexp = /\[([^\]]*)\]/g
@@ -43,14 +43,15 @@ export async function md2json(param, imgs) {
       doc.refnotes = {}
       mdrefs.forEach(mdref=> {
         let refnote = mdref.replace(/[\[\]]/g, '')
-        let fndoc = fnrefs.find(doc=> refnote == doc.ref)
-        if (!fndoc) return
-        if (fndoc) doc.refnotes[refnote] = fndoc._id, delete fndoc.ref
+        let fndoc = fndocs.find(doc=> refnote == doc.ref)
+        if (fndoc) {
+          doc.refnotes[refnote] = fndoc._id
+        }
       })
     } else if (/^!\[/.test(md)) {
       doc.type = 'img'
     } else if (/^#/.test(md)){
-      fnrefs = fnrefs.filter(fn=> fn.endnote)
+      fndocs = fndocs.filter(fn=> fn.endnote)
       endnote = false
     }
 
